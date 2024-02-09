@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def sphere_function(individual):
     fitness_value = 0
@@ -14,8 +15,9 @@ def sphere_function(individual):
 def binary_social_group_optimization(N = 10, D = 30, LL = -100, UL = 100, g = 10, c=0.2):
     # 1. Initialize the population
     population = np.random.randint(LL, UL, size=(N, D))
-    print(population)
+    # print(population)
     gBest_array = []
+    x_axis = []
 
     #2.Calculate Fitness
     for gen in range(g):
@@ -24,10 +26,11 @@ def binary_social_group_optimization(N = 10, D = 30, LL = -100, UL = 100, g = 10
             individual_fitness = sphere_function(individual)
             fitness_values.append(individual_fitness)
         fitness = np.array(fitness_values)
-        # print(fitness)
 
         # 3. Improving Phase
         gbest = population[np.argmin(fitness)]
+        gBest_array.append(fitness[np.argmin(fitness)])
+        x_axis.append(gen)
         for i in range(N):
             for j in range(D):
                 temp = population[i]
@@ -41,9 +44,6 @@ def binary_social_group_optimization(N = 10, D = 30, LL = -100, UL = 100, g = 10
         for i in range(N):
             ind = np.random.randint(0, N)
             Xr = population[ind]
-            # while np.any(Xr == population[i]):
-            #     ind = np.random.randint(0, N)
-            #     Xr = population[ind]
             temp = population[i]
             if fitness[i] < fitness[ind]:
                 r1, r2 = np.random.rand(2)
@@ -61,15 +61,12 @@ def binary_social_group_optimization(N = 10, D = 30, LL = -100, UL = 100, g = 10
                     temp[j] = Xnew
                     if sphere_function(temp) < fitness[i]:
                         population[i, j] = Xnew
-        best_solution = population[np.argmin(fitness)]
-        gBest_array.append(best_solution)
-    gBests = np.array(gBest_array)
-
-    # 5. Termination criterion
-
-    best_solution = population[np.argmin(fitness)]
-    best_fitness = sphere_function(best_solution)
-    print(gBests)
-    return best_solution, best_fitness
+    print(gBest_array)
+    print(x_axis)
+    plt.plot(x_axis,gBest_array)
+    plt.ylabel("G-best values")
+    plt.xlabel("Generations")
+    plt.title("Graph of SGO")
+    plt.show()
 
 binary_social_group_optimization()
