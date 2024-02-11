@@ -9,7 +9,7 @@ def binary_social_group_optimization(N=10, D=30, LL=-100, UL=100, g=10, c=0.2):
     population = np.random.randint(LL, UL, size=(N, D))
     print("Initial Population:\n", population)
     
-    best_fitness_over_generations = []  # To track the best fitness value over generations
+    best_fitness_over_generations = [] 
     
     for gen in range(g):
         # Calculate fitness of the population using the new step function
@@ -18,7 +18,7 @@ def binary_social_group_optimization(N=10, D=30, LL=-100, UL=100, g=10, c=0.2):
         
         gbest_index = np.argmin(fitness)
         gbest = population[gbest_index]
-        best_fitness_over_generations.append(fitness[gbest_index])  # Track the best fitness
+        best_fitness_over_generations.append(fitness[gbest_index])
         
         # Improving Phase
         for i in range(N):
@@ -27,7 +27,6 @@ def binary_social_group_optimization(N=10, D=30, LL=-100, UL=100, g=10, c=0.2):
                 Xnew = c * population[i, j] + r * (gbest[j] - population[i, j])
                 population[i, j] = Xnew  # Directly updating without re-evaluation step
         
-        # Acquiring Phase
         # Simplified for demonstration purposes; directly updating without re-evaluation step
 
     # Plotting the optimization process
